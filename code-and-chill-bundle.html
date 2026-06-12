@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code & Chill Bundle · by tar0bunny</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #F3F2F8;
+    --blush-mid: #D0CEE0;
+    --rose: #E5B8CF;
+    --rose-dark: #D098B8;
+    --sage: #C8D8C0;
+    --sage-dark: #4D7A45;
+    --lavender: #F5F4F9;
+    --lavender-dark: #718CA0;
+    --sky: #EEF3F8;
+    --sky-dark: #718CA0;
+    --cream: #ffffff;
+    --text: #3D4A7A;
+    --text-muted: #5A6A8A;
+    --text-light: #718CA0;
+    --code-bg: #F5F4F9;
+    --code-keyword: #3D4A7A;
+    --code-string: #718CA0;
+    --code-number: #E5B8CF;
+    --code-comment: #A0B0C0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ffffff;
+    color: var(--text);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .top-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #3D4A7A 0%, #718CA0 33%, #E5B8CF 66%, #E8E6F0 100%);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 3rem 1.75rem 4.5rem;
+    border-bottom: 1px solid var(--blush-mid);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  @media print {
+    .top-bar { display: none; }
+    .section { page-break-after: always; padding: 2rem 1.5rem 3rem; border-bottom: none; }
+    .section:last-child { page-break-after: avoid; }
+    body { background: white; }
+
+    /* prevent these from splitting across pages */
+    .path-card,
+    .concept-card,
+    .explainer-card,
+    .learn-card,
+    .step,
+    .run-step,
+    .repl-step,
+    .thing-card,
+    .node-action,
+    .node-stuck,
+    .node-decision,
+    .node-success,
+    .info-box,
+    .project-intro,
+    .customize-note,
+    .payoff,
+    .bonus,
+    .tip-card,
+    .free-plan,
+    .not-sure,
+    .toc-item {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* shrink code block font for print so long lines don't overflow */
+    .project-code pre { font-size: 0.68rem; line-height: 1.7; }
+    .code-block { font-size: 0.72rem; }
+  }
+
+  /* ── SHARED ── */
+  .bundle-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+  }
+
+  .page-title { margin-bottom: 2.25rem; }
+
+  .page-title h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .page-title .subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.97rem;
+    color: var(--text-light);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.25rem 0;
+  }
+
+  .divider hr { flex: 1; border: none; border-top: 1px solid var(--blush-mid); }
+
+  .divider span {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    white-space: nowrap;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.9rem;
+    display: block;
+  }
+
+  .body-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .code-inline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    background: var(--code-bg);
+    color: var(--rose-dark);
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid var(--blush-mid);
+  }
+
+  /* ── FOOTER ── */
+  .footer-flourish {
+    text-align: center;
+    margin-top: 3.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--blush-mid);
+  }
+
+  .footer-flourish p {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+
+  .dot-row { display: flex; justify-content: center; gap: 6px; margin-top: 0.85rem; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot.rose { background: #E5B8CF; }
+  .dot.sage { background: #6E8F65; }
+  .dot.lavender { background: #718CA0; }
+  .dot.sky { background: #3D4A7A; }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid var(--blush-mid);
+  }
+
+  .cover-brand {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+  }
+
+  .cover h1 {
+    font-family: 'Lora', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .cover h1 em { font-style: italic; color: var(--rose-dark); }
+
+  .cover-tagline {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--rose);
+    margin-bottom: 3.5rem;
+  }
+
+  .cover-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 3.5rem;
+    text-align: left;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  .toc-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--text-muted); }
+
+  .toc-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blush);
+    border: 1px solid var(--blush-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--rose-dark);
+    flex-shrink: 0;
+  }
+
+  /* ── WELCOME ── */
+  .welcome-quote {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    line-height: 1.45;
+    color: var(--rose-dark);
+    margin-bottom: 1.75rem;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--blush-mid);
+  }
+
+  .info-box {
+    border-radius: 14px;
+    padding: 1.4rem 1.6rem;
+    margin: 1.75rem 0;
+  }
+
+  .info-box .box-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .info-box p { font-size: 0.93rem; line-height: 1.7; color: var(--text-muted); }
+
+  .closing-note {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.93rem;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  /* ── PATH CARDS ── */
+  .path-card {
+    border-radius: 18px;
+    padding: 1.6rem 1.75rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .path-card.creative { background: #F5F0F8; border: 1px solid #E8E6F0; }
+  .path-card.tinkerer { background: #EEF4EC; border: 1px solid #C8D8C0; }
+  .path-card.organizer { background: #E8EDF5; border: 1px solid #D0D8E8; }
+  .path-card.launcher { background: #FBF0F5; border: 1px solid #F0D5E8; }
+
+  .path-header { display: flex; align-items: flex-start; gap: 0.9rem; margin-bottom: 0.7rem; }
+  .path-emoji { font-size: 1.3rem; line-height: 1; margin-top: 2px; }
+
+  .path-title-group h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.08rem;
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+  }
+
+  .path-card.creative h3 { color: #E5B8CF; }
+  .path-card.tinkerer h3 { color: #4D7A45; }
+  .path-card.organizer h3 { color: #3D4A7A; }
+  .path-card.launcher h3 { color: #718CA0; }
+
+  .path-tagline { font-family: 'Lora', serif; font-style: italic; font-size: 0.85rem; color: var(--text-light); }
+
+  .path-description {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-left: 2.2rem;
+  }
+
+  .path-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; padding-left: 2.2rem; }
+
+  .meta-item label {
+    display: block;
+    font-size: 0.63rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.2rem;
+  }
+
+  .meta-item p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+
+  .start-by {
+    margin-top: 0.9rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 9px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-left: 2.2rem;
+  }
+
+  .path-card.creative .start-by { background: #F0E8F3; }
+  .path-card.tinkerer .start-by { background: #DFF0D8; }
+  .path-card.organizer .start-by { background: #DEE5F0; }
+  .path-card.launcher .start-by { background: #F3E8F0; }
+
+  .start-by strong {
+    font-size: 0.63rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .path-card.creative .start-by strong { color: #E5B8CF; }
+  .path-card.tinkerer .start-by strong { color: #4D7A45; }
+  .path-card.organizer .start-by strong { color: #3D4A7A; }
+  .path-card.launcher .start-by strong { color: #718CA0; }
+
+  .not-sure {
+    text-align: center;
+    margin-top: 1.75rem;
+    padding: 1.1rem;
+    background: #FBF0F5;
+    border-radius: 12px;
+    border: 1px solid var(--blush-mid);
+  }
+
+  .not-sure p { font-family: 'Lora', serif; font-style: italic; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+  .not-sure strong { color: var(--blush); font-style: normal; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+
+  /* ── PYTHONONLINE STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0.65rem; }
+
+  .step {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    background: var(--blush);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--blush-mid);
+  }
+
+  .step-number {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--blush-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--rose-dark);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-content h4 { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+  .step-content p { font-size: 0.85rem; line-height: 1.6; color: var(--text-muted); }
+  .step-content .tip { display: block; margin-top: 0.35rem; font-size: 0.8rem; color: var(--rose-dark); font-style: italic; }
+
+  .two-things { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .thing-card {
+    background: var(--blush);
+    border-radius: 14px;
+    padding: 1.25rem;
+    border: 1px solid var(--blush-mid);
+    text-align: center;
+  }
+
+  .thing-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+  .thing-card h4 { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
+  .thing-card p { font-size: 0.82rem; line-height: 1.6; color: var(--text-muted); }
+
+  .code-block-light {
+    background: var(--code-bg);
+    border-radius: 10px;
+    padding: 0.9rem 1.25rem;
+    margin: 0.9rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--blush-mid);
+  }
+
+  .code-block-light code { font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--text); }
+  .code-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-left: auto; white-space: nowrap; }
+
+  .payoff {
+    background: var(--blush);
+    border-radius: 14px;
+    padding: 1.25rem 1.6rem;
+    border: 1px solid var(--blush-mid);
+    text-align: center;
+    margin-top: 1.1rem;
+  }
+
+  .payoff p { font-family: 'Lora', serif; font-style: italic; font-size: 0.97rem; color: var(--rose-dark); line-height: 1.6; }
+
+  .repl-steps { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+
+  .repl-step {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.65rem 0.9rem;
+    background: var(--blush);
+    border-radius: 10px;
+    border: 1px solid var(--blush-mid);
+  }
+
+  .repl-step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--lavender);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--lavender-dark);
+    flex-shrink: 0;
+  }
+
+  .repl-step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+  .repl-step p strong { color: var(--text); font-weight: 500; }
+
+  /* ── PYTHON CHEAT SHEET ── */
+  .concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .concept-card { background: white; border-radius: 14px; border: 1px solid var(--blush-mid); overflow: hidden; }
+  .concept-card.full-width { grid-column: 1 / -1; }
+
+  .card-header { padding: 0.8rem 1.1rem 0.65rem; border-bottom: 1px solid var(--blush-mid); background: white; }
+
+  .card-header h3 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rose-dark);
+    margin-bottom: 0.15rem;
+  }
+
+  .card-header p { font-size: 0.8rem; color: var(--text-light); font-style: italic; font-family: 'Lora', serif; }
+
+  .code-block {
+    background: var(--code-bg);
+    padding: 0.9rem 1.1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.79rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .code-block .comment { color: var(--code-comment); }
+  .code-block .keyword { color: var(--code-keyword); }
+  .code-block .string { color: var(--code-string); }
+  .code-block .number { color: var(--code-number); }
+
+  .card-note {
+    padding: 0.55rem 1.1rem;
+    background: var(--blush);
+    font-size: 0.77rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--blush-mid);
+    font-style: italic;
+  }
+
+  .card-note strong { color: var(--rose-dark); font-style: normal; font-weight: 500; }
+
+  .output-box {
+    padding: 0.55rem 1.1rem;
+    background: #EEF4EC;
+    border-top: 1px solid #C8D8C0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.77rem;
+    line-height: 1.6;
+    color: var(--sage-dark);
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .output-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    white-space: nowrap;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .output-text { color: #3A5C36; }
+
+  .operators { padding: 0.65rem 1.1rem; background: var(--code-bg); }
+
+  .op-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 70px;
+    gap: 0.4rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px solid var(--blush-mid);
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.79rem;
+  }
+
+  .op-row:last-child { border-bottom: none; }
+  .op-expr { color: var(--text); }
+  .op-desc { color: var(--code-comment); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; }
+  .op-result { color: var(--code-number); text-align: right; }
+
+  .types-table { padding: 0.65rem 1.1rem; background: var(--code-bg); }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px solid var(--blush-mid);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.79rem;
+    align-items: center;
+  }
+
+  .type-row:last-child { border-bottom: none; }
+  .type-label { color: var(--code-comment); font-size: 0.75rem; }
+
+  .tip-card {
+    background: var(--lavender);
+    border-radius: 14px;
+    border: 1px solid var(--blush-mid);
+    padding: 1rem 1.25rem;
+    margin-top: 1.1rem;
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .tip-icon { font-size: 0.95rem; margin-top: 2px; flex-shrink: 0; }
+  .tip-card p { font-size: 0.85rem; line-height: 1.65; color: var(--lavender-dark); }
+  .tip-card p strong { font-weight: 500; color: #3D4A7A; }
+
+  /* ── PROJECT ── */
+  .project-intro {
+    background: var(--lavender);
+    border-radius: 14px;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid #D0C4E0;
+    margin-bottom: 1.75rem;
+  }
+
+  .project-intro p { font-size: 0.93rem; line-height: 1.8; color: var(--lavender-dark); margin-bottom: 0.5rem; }
+  .project-intro p:last-child { margin-bottom: 0; }
+
+  .what-youll-learn { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 2rem; }
+
+  .learn-card {
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--blush-mid);
+    background: var(--blush);
+  }
+
+  .learn-card h4 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose-dark);
+    margin-bottom: 0.35rem;
+  }
+
+  .learn-card p { font-size: 0.82rem; line-height: 1.55; color: var(--text-muted); }
+
+  .customize-note {
+    background: #F8F5FA;
+    border: 1px solid var(--blush-mid);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.4rem;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .customize-note p { font-size: 0.85rem; line-height: 1.65; color: var(--text-muted); }
+  .customize-note p strong { color: var(--rose-dark); font-weight: 500; }
+
+  .project-code {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid var(--blush-mid);
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+  }
+
+  .project-code-header {
+    padding: 0.7rem 1.1rem;
+    border-bottom: 1px solid var(--blush-mid);
+    background: var(--blush);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .project-code-header h3 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose-dark);
+  }
+
+  .project-code-header span { font-size: 0.7rem; color: var(--text-light); font-family: 'DM Mono', monospace; }
+
+  .project-code pre {
+    padding: 1.1rem 1.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--text);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    background: var(--code-bg);
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .project-code .c { color: var(--code-comment); }
+  .project-code .k { color: var(--code-keyword); font-weight: 500; }
+  .project-code .s { color: var(--code-string); }
+  .project-code .n { color: var(--code-number); }
+
+  .how-to-run { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .run-step {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 0.65rem 0.9rem;
+    background: var(--blush);
+    border-radius: 10px;
+    border: 1px solid var(--blush-mid);
+  }
+
+  .run-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--sage-dark);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .run-step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+  .run-step p strong { color: var(--text); font-weight: 500; }
+
+  /* ── CODE EXPLAINER ── */
+  .explainer-card {
+    background: white;
+    border: 1px solid var(--blush-mid);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .explainer-card-header {
+    background: var(--blush);
+    padding: 0.8rem 1.1rem;
+    border-bottom: 1px solid var(--blush-mid);
+  }
+
+  .explainer-card-header .ex-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--rose-dark);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .explainer-card-header h3 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .explainer-card-body {
+    padding: 0.9rem 1.1rem;
+  }
+
+  .explainer-card-body p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .explainer-card-body .analogy {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.84rem;
+    color: var(--text-light);
+  }
+
+  /* ── FLOWCHART ── */
+  .flowchart { display: flex; flex-direction: column; align-items: center; }
+
+  .node-entry {
+    background: var(--text);
+    color: white;
+    border-radius: 999px;
+    padding: 0.55rem 1.6rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .connector { display: flex; flex-direction: column; align-items: center; }
+  .connector-line { width: 1.5px; height: 24px; background: var(--blush-mid); }
+
+  .connector-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: white;
+    padding: 0 0.35rem;
+    margin: -2px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .node-decision {
+    background: var(--blush);
+    border: 1.5px solid var(--blush-mid);
+    border-radius: 10px;
+    padding: 0.8rem 1.4rem;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+  }
+
+  .node-decision p { font-family: 'Lora', serif; font-style: italic; font-size: 0.93rem; color: var(--text); line-height: 1.5; }
+
+  .branch-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; width: 100%; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+
+  .node-action { border-radius: 12px; padding: 0.9rem 1rem; width: 100%; }
+  .node-action.rose-card { background: var(--sky); border: 1px solid #B8C8D8; }
+  .node-action.sky-card { background: var(--sky); border: 1px solid #B8C8D8; }
+  .node-action.lav-card { background: var(--lavender); border: 1px solid var(--blush-mid); }
+
+  .node-action h4 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+  }
+
+  .node-action.rose-card h4 { color: var(--text); }
+  .node-action.sky-card h4 { color: var(--text); }
+  .node-action.lav-card h4 { color: var(--lavender-dark); }
+
+  .node-action ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .node-action ul li {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text);
+    padding-left: 0.9rem;
+    position: relative;
+  }
+
+  .node-action ul li::before { content: '·'; position: absolute; left: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.3; }
+
+  .node-stuck {
+    background: var(--lavender);
+    border: 1.5px solid var(--blush-mid);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .node-stuck h4 {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.45rem;
+  }
+
+  .node-stuck ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .node-stuck ul li {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text);
+    padding-left: 0.9rem;
+    position: relative;
+  }
+
+  .node-stuck ul li::before { content: '·'; position: absolute; left: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.3; }
+
+  .node-success {
+    background: #F0F5F8;
+    border: 1.5px solid #718CA0;
+    border-radius: 999px;
+    padding: 0.65rem 1.75rem;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+  }
+
+  .node-success p { font-family: 'Lora', serif; font-style: italic; font-size: 0.93rem; color: #3D4A7A; }
+
+  .bonus {
+    background: var(--blush);
+    border-radius: 12px;
+    border: 1px solid var(--blush-mid);
+    padding: 1rem 1.25rem;
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .bonus p { font-size: 0.85rem; line-height: 1.65; color: var(--text-muted); font-style: italic; font-family: 'Lora', serif; }
+  .bonus p strong { font-style: normal; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--rose-dark); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 560px) {
+    .concepts, .two-things, .what-youll-learn, .branch-row, .path-meta { grid-template-columns: 1fr; }
+    .concept-card.full-width, .tip-card { grid-column: 1; }
+    .cover h1 { font-size: 2.2rem; }
+    .section { padding: 2.5rem 1.25rem 3.5rem; }
+    .project-code pre { font-size: 0.72rem; }
+    .welcome-quote { font-size: 1.35rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<!-- ═══════════════════════ COVER ═══════════════════════ -->
+<div class="cover">
+  <p class="cover-brand">tar0bunny · free starter bundle</p>
+  <h1>Code &amp; Chill Bundle</h1>
+  <p class="cover-tagline">Start coding in a weekend</p>
+
+  <div class="cover-toc">
+    <div class="toc-item"><div class="toc-num">01</div>Welcome &amp; dev paths</div>
+    <div class="toc-item"><div class="toc-num">02</div>Intro to pythononline.net</div>
+    <div class="toc-item"><div class="toc-num">03</div>Python cheat sheet</div>
+    <div class="toc-item"><div class="toc-num">04</div>Your first project</div>
+    <div class="toc-item"><div class="toc-num">05</div>Understanding your code</div>
+    <div class="toc-item"><div class="toc-num">06</div>What to do when you're stuck</div>
+  </div>
+
+  <div class="dot-row">
+    <div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 01 · WELCOME ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 01</p>
+
+  <blockquote class="welcome-quote">You found your way here, and that's already the hardest part.</blockquote>
+
+  <div class="body-text">This bundle is for anyone who's ever thought "I want to learn tech but I don't know where to start" — and then closed seventeen browser tabs because it was all too much.</div>
+  <div class="body-text">You don't need a computer science degree. You don't need to know what an algorithm is. You just need this bundle, a cozy drink, and a little curiosity.</div>
+
+  <div class="info-box" style="background: var(--blush); border: 1px solid var(--blush-mid);">
+    <span class="box-label">How to use this bundle</span>
+    <p>Read it in order if you're brand new, or jump around and grab what you need. Keep it open in another tab while you code. Make it yours.</p>
+  </div>
+
+  <p class="closing-note">One more thing — you <em>will</em> get stuck. Your code <em>will</em> break. That's not a sign that you're bad at this. That's just coding. There's a whole page for that at the end. 🌸</p>
+
+  <div class="divider" style="margin-bottom: 0; page-break-before: always; break-before: always; padding-top: 2rem;"><hr><span>Find your path</span><hr></div>
+
+  <div style="margin-bottom: 2rem; padding-top: 1.5rem;">
+    <h2 style="font-family:'Lora',serif;font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:0.4rem;">What kind of builder are you?</h2>
+    <p style="font-size:0.88rem;color:var(--text-light);font-style:italic;">Everyone starts somewhere different. Find your path below — and remember, you don't have to pick just one.</p>
+  </div>
+
+  <div class="path-card creative">
+    <div class="path-header">
+      <span class="path-emoji">🌸</span>
+      <div class="path-title-group">
+        <h3>The Creative</h3>
+        <p class="path-tagline">You want what you build to feel as good as it looks.</p>
+      </div>
+    </div>
+    <p class="path-description">You care about colors, fonts, layout, and vibe. You probably already have opinions about whether a website looks good or not — and you're right, it doesn't. You want to be the one who fixes it.</p>
+    <div class="path-meta">
+      <div class="meta-item"><label>You'll love building</label><p>Personal websites, portfolio pages, landing pages, aesthetic web projects</p></div>
+      <div class="meta-item"><label>Start with</label><p>HTML &amp; CSS — the building blocks of everything you see on the internet</p></div>
+    </div>
+  </div>
+
+  <div class="path-card tinkerer">
+    <div class="path-header">
+      <span class="path-emoji">🌿</span>
+      <div class="path-title-group">
+        <h3>The Tinkerer</h3>
+        <p class="path-tagline">You like figuring out how things work — and making them work better.</p>
+      </div>
+    </div>
+    <p class="path-description">You're the person who automates their grocery list, color-codes their entire calendar, and wonders if there's a faster way to do literally everything. There is. It's Python.</p>
+    <div class="path-meta">
+      <div class="meta-item"><label>You'll love building</label><p>Scripts that save you time, little tools that solve annoying problems, fun projects that make you smile</p></div>
+      <div class="meta-item"><label>Start with</label><p>Python — readable, beginner-friendly, and endlessly useful</p></div>
+    </div>
+  </div>
+
+  <div class="path-card organizer">
+    <div class="path-header">
+      <span class="path-emoji">📊</span>
+      <div class="path-title-group">
+        <h3>The Organizer</h3>
+        <p class="path-tagline">You love making sense of information — and making it look good doing it.</p>
+      </div>
+    </div>
+    <p class="path-description">Spreadsheets are your love language. You've built a Google Sheet that your friends think is witchcraft. You want to take that energy further and start turning data into something people can actually see and understand.</p>
+    <div class="path-meta">
+      <div class="meta-item"><label>You'll love building</label><p>Charts, dashboards, data visualizations, reports that don't put people to sleep</p></div>
+      <div class="meta-item"><label>Start with</label><p>Google Sheets + Datawrapper — get comfortable with data first, Python comes later</p></div>
+    </div>
+  </div>
+
+  <div class="not-sure">
+    <p>Psst — most beginners are a little bit of everything. If more than one resonated, that's totally normal.</p>
+  </div>
+
+  <div class="footer-flourish">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 02 · PYTHONONLINE ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 02</p>
+
+  <div class="page-title">
+    <h1>Intro to pythononline.net</h1>
+    <p class="subtitle">Your cozy little coding home in the browser</p>
+  </div>
+
+  <div class="info-box" style="background: var(--sky); border: 1px solid #B8C8D8;">
+    <p style="color: var(--sky-dark);">pythononline.net is where you'll write and run your code — and the best part is it lives entirely in your browser. No downloads, no installations, no "why isn't this working on my laptop."</p>
+    <p style="color: var(--sky-dark); margin-top: 0.5rem;">Just open it, write some code, and hit run.</p>
+    <p style="color: var(--sky-dark); margin-top: 0.5rem; font-family: 'Lora', serif; font-style: italic;">Think of it like Google Docs, but for coding.</p>
+  </div>
+
+  <div style="margin: 2rem 0;">
+    <span class="section-label">Getting started</span>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Go to <a href="https://pythononline.net" target="_blank" style="color: var(--rose-dark); text-decoration: underline; text-underline-offset: 3px;">pythononline.net</a></h4>
+          <p>You'll see a code editor right away — no sign up needed to get started.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Sign in with Google to save your work (optional)</h4>
+          <p>You don't need an account to run code, but signing in with Google lets you save your projects and come back to them later.</p>
+          <span class="tip">Recommended if you plan to use it more than once — your code won't disappear between sessions.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>You're in!</h4>
+          <p>The editor is on the left, the output appears on the right. You only need to know two things to get started.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin-bottom: 0; page-break-before: always; break-before: always; padding-top: 2rem;"><hr><span>The two things you need to know</span><hr></div>
+
+  <div class="two-things" style="margin-bottom: 2rem; padding-top: 1.5rem;">
+    <div class="thing-card">
+      <span class="thing-icon">📝</span>
+      <h4>The editor</h4>
+      <p>The left side is where you write your code. Think of it as a very smart text document that understands Python.</p>
+    </div>
+    <div class="thing-card">
+      <span class="thing-icon">▶️</span>
+      <h4>The run button</h4>
+      <p>The big button that executes your code. Press it and your output appears on the right side instantly.</p>
+    </div>
+  </div>
+
+  <div class="divider"><hr><span>Try it now</span><hr></div>
+
+  <div class="repl-steps">
+    <div class="repl-step"><div class="repl-step-num">1</div><p>Open <a href="https://pythononline.net" target="_blank" style="color:var(--rose-dark);text-decoration:underline;text-underline-offset:2px;">pythononline.net</a> in your browser</p></div>
+    <div class="repl-step"><div class="repl-step-num">2</div><p>Clear the editor and type the following:</p></div>
+  </div>
+
+  <div class="code-block-light">
+    <code>print("hello, cozy world!")</code>
+  </div>
+
+  <div class="repl-steps">
+    <div class="repl-step"><div class="repl-step-num">3</div><p>Hit the <strong>Run</strong> button and watch those words appear on the right</p></div>
+  </div>
+
+  <div class="payoff">
+    <p>If you see "hello, cozy world!" appear — you just ran your first Python program. 🎉</p>
+  </div>
+
+  <div class="footer-flourish">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 03 · PYTHON CHEAT SHEET ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 03</p>
+
+  <div class="page-title">
+    <h1>Python cheat sheet</h1>
+    <p class="subtitle">Just enough to get started</p>
+  </div>
+
+  <div class="info-box" style="background: var(--blush); border: 1px solid var(--blush-mid); margin-bottom: 2rem;">
+    <p>You don't need to read this before you start. Think of it as a reference card — flip back here whenever something in the project confuses you. It's not a test, it's a cheat sheet. That's literally what it's for. 🌸</p>
+  </div>
+
+  <div class="concepts">
+    <div class="concept-card">
+      <div class="card-header"><h3>Comments</h3><p>Lines Python ignores — leave yourself notes</p></div>
+      <div class="code-block"><span class="comment"># this is a comment</span><br><span class="comment"># python won't run this line</span></div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">(nothing — comments are invisible to Python)</span></div>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><h3>Variables</h3><p>Named containers that store information</p></div>
+      <div class="code-block">name = <span class="string">"Ada"</span><br>age = <span class="number">25</span><br><span class="keyword">print</span>(name)<br><span class="keyword">print</span>(age)</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">Ada<br>25</span></div>
+      <div class="card-note">The <strong>=</strong> sign means "store this value," not "these are equal."</div>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><h3>Data types</h3><p>The kinds of information Python understands</p></div>
+      <div class="types-table">
+        <div class="type-row"><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:var(--code-string)">"hello"</span><span class="type-label">string — text, always in quotes</span></div>
+        <div class="type-row"><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:var(--code-number)">42</span><span class="type-label">integer — a whole number</span></div>
+        <div class="type-row"><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:var(--code-number)">3.14</span><span class="type-label">float — a number with a decimal</span></div>
+        <div class="type-row"><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:var(--code-keyword)">True / False</span><span class="type-label">boolean — yes or no</span></div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><h3>Print statements</h3><p>How you make Python show you something</p></div>
+      <div class="code-block"><span class="keyword">print</span>(<span class="string">"hello, cozy world!"</span>)<br><span class="keyword">print</span>(<span class="string">"I am"</span>, <span class="number">25</span>)</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">hello, cozy world!<br>I am 25</span></div>
+    </div>
+
+    <div class="concept-card full-width">
+      <div class="card-header"><h3>Math operators</h3><p>The basics of doing calculations in Python</p></div>
+      <div class="operators">
+        <div class="op-row"><span class="op-expr">5 + 2</span><span class="op-desc">addition</span><span class="op-result">→ 7</span></div>
+        <div class="op-row"><span class="op-expr">5 - 2</span><span class="op-desc">subtraction</span><span class="op-result">→ 3</span></div>
+        <div class="op-row"><span class="op-expr">5 * 2</span><span class="op-desc">multiplication</span><span class="op-result">→ 10</span></div>
+        <div class="op-row"><span class="op-expr">5 / 2</span><span class="op-desc">division</span><span class="op-result">→ 2.5</span></div>
+        <div class="op-row"><span class="op-expr">5 ** 2</span><span class="op-desc">exponent</span><span class="op-result">→ 25</span></div>
+        <div class="op-row"><span class="op-expr">5 % 2</span><span class="op-desc">remainder</span><span class="op-result">→ 1</span></div>
+      </div>
+    </div>
+
+    <div class="concept-card full-width">
+      <div class="card-header"><h3>If / else</h3><p>Making decisions in your code</p></div>
+      <div class="code-block">mood = <span class="string">"tired"</span><br><br><span class="keyword">if</span> mood == <span class="string">"tired"</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">print</span>(<span class="string">"go take a break"</span>)<br><span class="keyword">elif</span> mood == <span class="string">"happy"</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">print</span>(<span class="string">"let's build something!"</span>)<br><span class="keyword">else</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">print</span>(<span class="string">"grab a cozy drink first"</span>)</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">go take a break</span></div>
+      <div class="card-note">Note the <strong>colon</strong> at the end of each condition, and the <strong>indent</strong> on the next line — Python is picky about both.</div>
+    </div>
+
+    <div class="concept-card full-width">
+      <div class="card-header"><h3>Loops</h3><p>Repeating code without rewriting it</p></div>
+      <div class="code-block"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">range</span>(<span class="number">3</span>):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">print</span>(<span class="string">"cozy"</span>)</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">cozy<br>cozy<br>cozy</span></div>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><h3>Functions</h3><p>Write once, use whenever you need it</p></div>
+      <div class="code-block"><span class="keyword">def</span> greet(name):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">print</span>(<span class="string">"hello,"</span>, name)<br><br>greet(<span class="string">"Ada"</span>)<br>greet(<span class="string">"Taylor"</span>)</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">hello, Ada<br>hello, Taylor</span></div>
+    </div>
+
+    <div class="concept-card">
+      <div class="card-header"><h3>Importing a library</h3><p>Borrowing pre-written code</p></div>
+      <div class="code-block"><span class="keyword">import</span> random<br><br><span class="keyword">print</span>(random.choice([<br>&nbsp;&nbsp;<span class="string">"tea"</span>,<br>&nbsp;&nbsp;<span class="string">"coffee"</span>,<br>&nbsp;&nbsp;<span class="string">"hot chocolate"</span><br>]))</div>
+      <div class="output-box"><span class="output-label">output →</span> <span class="output-text">coffee <span style="color:var(--text-light);font-style:italic;">(random each time!)</span></span></div>
+    </div>
+
+  </div>
+
+  <div class="footer-flourish" style="page-break-inside: avoid; break-inside: avoid; page-break-before: avoid; break-before: avoid;">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 04 · YOUR FIRST PROJECT ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 04</p>
+
+  <div class="page-title">
+    <h1>Your first project</h1>
+    <p class="subtitle">A quote generator — what do you need to hear right now?</p>
+  </div>
+
+  <div class="project-intro">
+    <p>You're going to build a quote generator. Pick your vibe from a menu, and get a message that feels like it was made just for you — right in the output panel.</p>
+    <p>It runs, it's interactive, and the quotes are completely yours to edit.</p>
+  </div>
+
+  <span class="section-label" style="margin-bottom: 1rem;">What you'll learn</span>
+  <div class="what-youll-learn" style="margin-bottom: 2rem;">
+    <div class="learn-card"><h4>Dictionaries</h4><p>Your quotes are stored in a dictionary — like a labeled filing cabinet, one drawer per category.</p></div>
+    <div class="learn-card"><h4>Loops</h4><p>A <span class="code-inline">while True:</span> loop keeps the app running until you decide to quit.</p></div>
+    <div class="learn-card"><h4>Randomness</h4><p><span class="code-inline">random.choice()</span> picks a surprise quote every time.</p></div>
+    <div class="learn-card"><h4>User input</h4><p>The app waits for you to type a number, then responds — that's what makes it interactive.</p></div>
+  </div>
+
+  <div class="customize-note">
+    <span style="font-size:0.95rem;flex-shrink:0;margin-top:1px;">✏️</span>
+    <p><strong>Look for the ✏️ icon in the code — that's your signal that something is customizable!</strong> The quotes and category names are the main things to make your own. Find the <span class="code-inline">quotes = { ... }</span> section and swap in whatever you want each category to say. You can rename categories, add new ones, or delete ones you don't need. Don't forget to change <span class="code-inline">"friend"</span> in the greeting to your actual name too.</p>
+  </div>
+
+
+  <div class="project-code">
+    <div class="project-code-header">
+      <h3>quotes.py</h3>
+      <span>Copy &amp; paste the below code into pythononline.net</span>
+    </div>
+    <pre><span class="k">import</span> random
+
+<span class="c"># ── YOUR QUOTES — CUSTOMIZE THIS! ✏️ ──────────────
+# Replace the text between the quotation marks
+# with whatever you want. Each line needs a comma!</span>
+
+quotes = {
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ✏️ rename this category by changing the text in quotes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"✨ delulu"</span>: [
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Of course it works out for you"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"You're literally the main character"</span>,&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Things always fall in your favor"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;],
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ✏️ rename this category by changing the text in quotes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"☁️ comfort"</span>: [
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"It's okay to rest"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"You're doing the best you can"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"You're going to be okay"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c"># ← your quote here</span>
+&nbsp;&nbsp;&nbsp;&nbsp;],
+}
+
+<span class="c"># ✏️ change "friend" to your name!</span>
+<span class="k">print</span>(<span class="s">"\nHi friend, what do you need to hear right now?"</span>)
+<span class="k">print</span>(<span class="s">"Pick a category and get your quote ✨\n"</span>)
+
+<span class="c"># shows the numbered list of categories</span>
+category_list = list(quotes.keys())
+<span class="k">for</span> i, category <span class="k">in</span> enumerate(category_list, <span class="n">1</span>):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">print</span>(<span class="s">f"&nbsp;&nbsp;{i}. {category}"</span>)
+
+<span class="c"># asks you to pick a number</span>
+choice = input(<span class="s">"\nType a number and press Enter: "</span>)
+
+<span class="c"># picks a random quote from the category you chose</span>
+category = category_list[int(choice) - <span class="n">1</span>]
+quote = random.choice(quotes[category])
+
+<span class="k">print</span>(<span class="s">f"\n{category}"</span>)
+<span class="k">print</span>(<span class="s">f"\n&nbsp;&nbsp;{quote}\n"</span>)
+<span class="k">print</span>(<span class="s">"✨ You needed this today\n"</span>)</pre>
+  </div>
+
+  <span class="section-label" style="margin-bottom: 1rem; display: block; page-break-before: always; break-before: always; padding-top: 2rem;">How to run it</span>
+  <div class="how-to-run">
+    <div class="run-step"><div class="run-num">1</div><p>Open <a href="https://pythononline.net" target="_blank" style="color:var(--rose-dark);text-decoration:underline;text-underline-offset:2px;">pythononline.net</a> in your browser</p></div>
+    <div class="run-step"><div class="run-num">2</div><p>Clear the editor and <strong>paste the code above</strong></p></div>
+    <div class="run-step"><div class="run-num">3</div><p>Hit the <strong>Run</strong> button — the app will start in the output panel</p></div>
+    <div class="run-step"><div class="run-num">4</div><p>Type a number and press Enter to get your quote</p></div>
+    <div class="run-step"><div class="run-num">5</div><p>Edit the quotes to say whatever <em>you</em> want to hear, then run it again</p></div>
+  </div>
+
+  <div class="payoff" style="margin-top:1.25rem;">
+    <p>You just built your first interactive Python app. It takes input, makes decisions, and gives something back. That's real programming. 🎉</p>
+  </div>
+
+  <div class="footer-flourish">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 05 · UNDERSTANDING YOUR CODE ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 05</p>
+
+  <div class="page-title">
+    <h1>Understanding your code</h1>
+    <p class="subtitle">What the important lines are actually doing</p>
+  </div>
+
+  <p class="body-text">You built something real — now let's break down what the key parts are doing. You don't need to memorize any of this. Just read it once and let it click.</p>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">import random</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>Importing a library</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 1</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p>This line borrows pre-written code from Python's <span class="code-inline">random</span> library. Libraries are collections of useful functions that other people already wrote and tested. The <span class="code-inline">random</span> library gives you tools for picking random items, which is exactly what you need to pick a surprise quote each time.</p>
+      <span class="analogy">Think of it like borrowing a tool from a friend instead of building it yourself from scratch.</span>
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">quotes = { "☁️ comfort": [...], ... }</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>The dictionary</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 6</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p>This is where all your quotes live. A dictionary stores information in key/value pairs — the category name is the key, and the list of quotes is the value. You can look up any category by name, which is exactly what the program does when you pick a number.</p>
+      <span class="analogy">Think of it like a real dictionary: you look up a word (the key) and get a definition (the value).</span>
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">category_list = list(quotes.keys())</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>Pulling out the category names</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 27</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p><span class="code-inline">.keys()</span> grabs all the category names from your dictionary. Wrapping it in <span class="code-inline">list()</span> turns them into an ordered list so you can number them. This is how the app knows to show "1. ✨ delulu, 2. ☁️ comfort" and so on.</p>
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">for i, category in enumerate(category_list, 1):</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>The numbered list loop</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 28</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p>This loops through each category and gives it a number at the same time. <span class="code-inline">enumerate()</span> is a handy built-in that counts as it loops — the <span class="code-inline">1</span> tells it to start counting from 1 instead of 0. Without this, you'd have to manually number everything.</p>
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">choice = input("Type a number and press Enter: ")</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>Getting user input</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 32</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p>This pauses the program and waits for you to type something. Whatever you type gets stored in the variable <span class="code-inline">choice</span> so the program can use it to pick the right category.</p>
+    </div>
+  </div>
+
+  <div class="explainer-card">
+    <div class="explainer-card-header">
+      <span class="ex-code">quote = random.choice(quotes[category])</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3>Picking a random quote</h3>
+        <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);background:white;border:1px solid var(--blush-mid);border-radius:6px;padding:2px 8px;">Line 36</span>
+      </div>
+    </div>
+    <div class="explainer-card-body">
+      <p><span class="code-inline">quotes[category]</span> looks up the list of quotes for whichever category you chose. <span class="code-inline">random.choice()</span> then picks one at random from that list. This is the line that makes the app feel alive — every run might give you something different.</p>
+      <span class="analogy">It's the digital equivalent of pulling a fortune cookie slip from a bowl.</span>
+    </div>
+  </div>
+
+  <div class="payoff" style="margin-top: 1.75rem;">
+    <p>These patterns — dictionaries, loops, input, randomness — show up in almost every Python project you'll ever build. You just learned them by doing something real. 🌸</p>
+  </div>
+
+  <div class="footer-flourish">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ 06 · WHAT TO DO WHEN STUCK ═══════════════════════ -->
+<div class="section">
+  <p class="bundle-label">Code &amp; Chill Bundle · Section 06</p>
+
+  <div class="page-title">
+    <h1>What to do when you're stuck</h1>
+    <p class="subtitle">Getting stuck is part of coding, not a sign you're bad at it</p>
+  </div>
+
+  <div class="flowchart">
+    <div class="node-entry">Something's not working</div>
+
+    <div class="connector"><div class="connector-line"></div><div class="connector-label">First, ask</div><div class="connector-line"></div></div>
+
+    <div class="node-decision"><p>Is there a red error message?</p></div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="branch-row">
+      <div class="branch">
+        <div class="connector"><div class="connector-label">Yes</div><div class="connector-line"></div></div>
+        <div class="node-action rose-card">
+          <h4>Read the error</h4>
+          <ul>
+            <li>Read it top to bottom — focus on the last line</li>
+            <li>Copy the exact message and Google it</li>
+            <li>Add "Python" to your search</li>
+            <li>Found a fix? Try it and go back to start</li>
+          </ul>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="connector"><div class="connector-label">No error</div><div class="connector-line"></div></div>
+        <div class="node-action sky-card">
+          <h4>Check your code</h4>
+          <ul>
+            <li>Add a <span class="code-inline">print()</span> to see what Python thinks is happening</li>
+            <li>Check your indentation — Python is picky</li>
+            <li>Read your code out loud, line by line</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line" style="height:32px;"></div><div class="connector-label">Still stuck?</div><div class="connector-line"></div></div>
+
+    <div class="node-stuck">
+      <h4>Take a breath and try these</h4>
+      <ul>
+        <li>Walk away for 10 minutes — seriously, it works</li>
+        <li>Ask an AI assistant to <em>explain</em> the error, not just fix it</li>
+        <li>Post in a beginner community (Reddit r/learnpython, Discord)</li>
+        <li>Search for a YouTube tutorial on the specific thing that's breaking</li>
+      </ul>
+    </div>
+
+    <div class="connector"><div class="connector-line" style="height:32px;"></div><div class="connector-label">When it works</div><div class="connector-line"></div></div>
+
+    <div class="node-success"><p>It works! You figured it out. 🎉</p></div>
+  </div>
+
+  <div class="bonus">
+    <span style="font-size:0.95rem;flex-shrink:0;margin-top:1px;">🌸</span>
+    <p><strong>One last thing:</strong> when you fix a tricky bug, leave yourself a comment in the code explaining what the problem was and how you solved it. Future you will be very grateful.</p>
+  </div>
+
+  <div class="footer-flourish">
+    <p>Made with care, for curious beginners everywhere · by tar0bunny</p>
+    <div class="dot-row"><div class="dot rose"></div><div class="dot sage"></div><div class="dot lavender"></div><div class="dot sky"></div></div>
+  </div>
+</div>
+
+</body>
+</html>
